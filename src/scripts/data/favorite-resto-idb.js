@@ -23,6 +23,10 @@ const FavoriteRestoIdb = {
     },
 
     async putResto(resto) {
+        if (!resto.hasOwnProperty('id')) {
+            return;
+        }
+
         return (await dbPromise).put(OBJECT_STORE_NAME, resto);
     },
 

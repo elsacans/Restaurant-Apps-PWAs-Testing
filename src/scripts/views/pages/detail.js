@@ -1,5 +1,5 @@
 import CONFIG from '../../globals/config';
-import LikeButtonInitiator from '../../utils/like-button-initiator';
+import LikeButtonPresenter from '../../utils/like-button-presenter';
 
 const Detail = {
   async render() {
@@ -31,7 +31,7 @@ const Detail = {
 
       this._populateRestaurantDetail(restaurant);
       
-      LikeButtonInitiator.init({
+      LikeButtonPresenter.init({
         likeButtonContainer: document.querySelector('#likeButtonContainer'),
         restaurant: {
           id: restaurant.id,

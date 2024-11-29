@@ -7,7 +7,7 @@
     "start-dev": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "serve": "http-server dist --port 8080",
-    "test": "standard && node my-tests.js",
+    "test": "jest",
     "test:watch": "jest --watchAll"
   },
   "keywords": [],
