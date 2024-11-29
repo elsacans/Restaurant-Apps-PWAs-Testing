@@ -1,4 +1,5 @@
 import FavoriteRestoIdb from '../data/favorite-resto-idb';
+import
 
 const LikeButtonPresenter = {
   async init({ likeButtonContainer, restaurant }) {

@@ -1,8 +1,8 @@
 import LikeButtonPresenter from "../../src/scripts/utils/like-button-presenter";
-const createLikeButtonPresenterWithResto = async (resto) => {
+const createLikeButtonPresenterWithResto = async (restaurant) => {
     await LikeButtonPresenter.init({
-        likeButtonPresenter: document.querySelector('#likeButtonContainer'),
-        resto,
+        likeButtonContainer: document.querySelector('#likeButtonContainer'),
+        restaurant,
     });
 };
 
