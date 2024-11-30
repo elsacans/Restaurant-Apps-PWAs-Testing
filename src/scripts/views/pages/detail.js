@@ -1,5 +1,6 @@
 import CONFIG from '../../globals/config';
 import LikeButtonPresenter from '../../utils/like-button-presenter';
+import FavoriteRestoIdb from '../../data/favorite-resto-idb';
 
 const Detail = {
   async render() {
@@ -33,6 +34,7 @@ const Detail = {
       
       LikeButtonPresenter.init({
         likeButtonContainer: document.querySelector('#likeButtonContainer'),
+        favoriteRestaurants: FavoriteRestoIdb,
         restaurant: {
           id: restaurant.id,
           name: restaurant.name,

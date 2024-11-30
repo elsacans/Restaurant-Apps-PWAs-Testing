@@ -42,49 +42,4 @@ describe('Favorite Movie Array Contract Test Implementation', () => {
     });
 
     itActsAsFavoriteRestoModel(FavoriteRestoArray);
-});import { itActsAsFavoriteRestoModel } from "./contracts/favoriteRestaurantContract";
-
-let favoriteResto = [];
-
-const FavoriteRestoArray = {
-    getResto(id) {
-        if (!id) {
-            throw new Error('Id is required');
-        }
-
-        return favoriteResto.find((resto) => resto.id === id);
-    },
-
-    getAllResto() {
-        return [...favoriteResto];
-    },
-
-    putResto(resto) {
-        if (!resto || !resto.hasOwnProperty('id')) {
-            throw new Error('Invalid resto object');
-        }
-
-        const existingResto = this.getResto(resto.id);
-        if (existingResto) {
-            return;
-        }
-
-        favoriteResto.push(resto);
-    },
-
-    deleteResto(id) {
-        if (!id) {
-            throw new Error('Id is required');
-        }
-
-        favoriteResto = favoriteResto.filter((resto) => resto.id !== id);
-    },
-};
-
-describe('Favorite Movie Array Contract Test Implementation', () => {
-    afterEach(() => {
-        favoriteResto = [];
-    });
-
-    itActsAsFavoriteRestoModel(FavoriteRestoArray);
 });
