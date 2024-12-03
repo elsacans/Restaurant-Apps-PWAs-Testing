@@ -1,4 +1,5 @@
 import { itActsAsFavoriteRestoModel } from "./contracts/favoriteRestaurantContract";
+import { afterEach, describe } from "@jest/globals";
 
 let favoriteResto = [];
 
@@ -22,7 +23,7 @@ const FavoriteRestoArray = {
         }
 
         // pastikan id ini belum ada dalam daftar favoriteResto
-        if (!this.getResto(resto.id)) {
+        if (this.getResto(resto.id)) {
             return;
         }
 
