@@ -5,6 +5,7 @@ import FavoriteRestoIdb from '../src/scripts/data/favorite-resto-idb';
 
 describe('Searching restaurants', () => {
     let presenter;
+    let favoriteResto;
 
     const searchResto = (query) => {
         const queryElement = document.getElementById('query');
@@ -24,9 +25,16 @@ describe('Searching restaurants', () => {
         </div>
         `;
     };
+
     const constructPresenter = () => {
-        spyOn(FavoriteRestoIdb, 'searchResto');
-        presenter = new FavoriteRestoSearchPresenter({ favoriteRestaurants: FavoriteRestoIdb });
+        favoriteResto = {
+            getAllResto: jest.fn(),
+            searchResto: jest.fn(),
+        };
+        
+        presenter = new FavoriteRestoSearchPresenter({
+            favoriteResto,
+        });
     };
 
     beforeEach(() => {
@@ -34,64 +42,149 @@ describe('Searching restaurants', () => {
         constructPresenter();
     });
 
-    it('should be able to capture the query typed by the user', () => {
-        searchResto('resto a');
 
-        expect(presenter.latestQuery).toEqual('resto a');
+    describe('When query is not empty', () => {
+        it('should be able to capture the query typed by the user', () => {
+            FavoriteRestoIdb.searchResto.mockImplementation(() => []);
+            
+            searchResto('resto a');
+
+            expect(presenter.latestQuery).toEqual('resto a');
+        });
+
+        it('should ask the model to search for liked restaurants', () => {
+            favoriteResto.searchResto.mockImplementation(() => []);
+
+            searchResto('resto a');
+
+            expect(favoriteResto.searchResto).toHaveBeenCalledWith('resto a');
+        });
+
+        it('should show the found restaurants', () => {
+            presenter._showFoundResto([{ id: 1 }]);
+            expect(document.querySelectorAll('.restaurants').length).toEqual(1);
+
+            presenter._showFoundResto([
+                {
+                    id: 1,
+                    title: 'resto a',
+                },
+                {
+                    id: 2,
+                    title: 'resto b',
+                },
+            ]);
+
+            expect(document.querySelectorAll('.restaurants').length).toEqual(2);
+        });
+
+        it('should show the title of the found restaurants', () => {
+            presenter._showFoundResto([
+                {
+                    id: 1,
+                    title: 'resto a',
+                },
+            ]);
+
+            expect(document.querySelectorAll('.resto__name').item(0).textContent).toEqual('resto a');
+
+            presenter._showFoundResto([
+                {
+                    id: 1,
+                    title: 'resto a',
+                },
+                {
+                    id: 2,
+                    title: 'resto b',
+                },
+            ]);
+
+            const restoTitles = document.querySelectorAll('.resto__name');
+            
+            expect(restoTitles.item(0).textContent).toEqual('resto a');
+            expect(restoTitles.item(1).textContent).toEqual('resto b');
+        });
+
+        it('should show - for found restaurants without title', () => {
+            presenter._showFoundResto([{ id: 1 }]);
+            
+            expect(document.querySelectorAll('.resto__name').item(0).textContent).toEqual('-');
+        });
+
+        it('should show the restaurants found by Favorite Restaurants', (done) => {
+            document.getElementById('restaurant-search-container')
+            .addEventListener('restaurants:searched:updated', () => {
+                expect(document.querySelectorAll('.restaurants').length).toEqual(3);
+
+                done();
+            });
+
+            favoriteResto.searchResto.mockImplementation((query) => {
+                if (query === 'resto a') {
+                    return [
+                        { id: 111, title: 'resto abc'},
+                        { id: 222, title: 'ada juga resto abcde'},
+                        { id: 333, title: 'ini juga boleh resto a'},
+                    ];
+                }
+                return [];
+            });
+
+            searchResto('resto a');
+        });
+
+        it('should show the name of the restaurants found by Favorite Movies', (done) => {
+            document.getElementById('restaurant-search-container')
+            .addEventListener('restaurants:searched:updated', () => {
+                const restoTitles = document.querySelectorAll('.resto__name');
+
+                expect(restoTitles.item(0).textContent).toEqual('resto abc');
+                expect(restoTitles.item(1).textContent).toEqual('ada juga resto abcde');
+                expect(restoTitles.item(2).textContent).toEqual('ini juga boleh resto a');
+
+                done();
+            });
+
+            favoriteResto.searchResto.mockImplementation((query) => {
+                if (query === 'resto a') {
+                    return [
+                        { id: 111, title: 'resto abc'},
+                        { id: 222, title: 'ada juga resto abcde'},
+                        { id: 333, title: 'ini juga boleh resto a'},
+                    ];
+                }
+
+                return [];
+            });
+
+            searchResto('resto a');
+        });
     });
 
-    it('should ask the model to search for liked restaurants', () => {
-        searchResto('resto a');
+    describe('When query is empty', () => {
+        it('should capture the query as empty', () => {
+            favoriteResto.getAllResto.mockImplementation(() => []);
 
-        expect(FavoriteRestoIdb.searchResto).toHaveBeenCalledWith('resto a');
-    });
+            searchResto(' ');
 
-    it('should show the found restaurants', () => {
-        presenter._showFoundResto([{ id: 1 }]);
-        expect(document.querySelectorAll('.restaurants').length).toEqual(1);
+            expect(presenter.latestQuery.length).toEqual(0);
 
-        presenter._showFoundResto([
-            {
-                id: 1,
-                title: 'resto a',
-            },
-            {
-                id: 2,
-                title: 'resto b',
-            },
-        ]);
-        expect(document.querySelectorAll('.restaurants').length).toEqual(2);
-    });
+            searchResto('   ');
+            expect(presenter.latestQuery.length).toEqual(0);
 
-    it('should show the title of the found restaurants', () => {
-        presenter._showFoundResto([
-            {
-                id: 1,
-                title: 'resto a',
-            },
-        ]);
+            searchResto('');
+            expect(presenter.latestQuery.length).toEqual(0);
 
-        expect(document.querySelectorAll('.resto__name').item(0).textContent).toEqual('resto a');
+            searchResto('\t');
+            expect(presenter.latestQuery.length).toEqual(0);
+        });
 
-        presenter._showFoundResto([
-            {
-                id: 1,
-                title: 'resto a',
-            },
-            {
-                id: 2,
-                title: 'resto b',
-            },
-        ]);
+        it('should show all favorite movies', () => {
+            favoriteResto.getAllResto.mockImplementation(() => []);
 
-        const restoTitles = document.querySelectorAll('.resto__name');
-        
-        expect(restoTitles.item(0).textContent).toEqual('resto a');
-        expect(restoTitles.item(1).textContent).toEqual('resto b');
-    });
+            searchResto('    ');
 
-    it('should show - for found restaurants without title', () => {
-        presenter._showFoundResto([{ id: 1 }]);
-        expect(document.querySelectorAll('.resto__name').item(0).textContent).toEqual('-');
+            expect(favoriteResto.getAllResto).toHaveBeenCalled();
+        });
     });
 });
