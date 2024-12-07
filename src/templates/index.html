@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Your favorite resto is here">
+    <meta name="theme-color" content="#C75B7A"/>
+    <link rel="apple-touch-icon" href="../public/icons/icon-192x192.png"/>
+    <link rel="manifest" href="./app.webmanifest"/>
+    <link rel="icon" href="./favicon.png"/>
+    
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mr+Dafoe&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async=""></script>
+    <script src="https://use.fontawesome.com/b070c8f1df.js"></script>
+    <title>Restaurant Apps</title>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to Content</a>
+
+    <!-- Nav Bar -->
+    <header class="header">
+      <div class="header_inner">
+        <h1 class="header_title">Restaurant Apps</h1>
+      </div>
+      <button id="menu" class="header_menu">☰</button>
+      <nav id="drawer" class="nav">
+        <ul class="nav_list">
+          <li class="nav_item"><a href="/">Home</a></li>
+          <li class="nav_item"><a href="#/favorite">Favorites</a></li>
+          <li class="nav_item"><a href="https://www.linkedin.com/in/elsa-aprilia-suciaty-215b39296/">About Us</a></li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Hero Element -->
+    <div class="hero">
+      <picture>
+        <source media="(max-width: 600px)" srcset="./hero-image_2-small.jpg">
+        <source media="(min-width: 601px)" srcset="./hero-image_2-large.jpg">
+        <img src="./hero-image_2-large.jpg" alt="Delicious Food" class="hero-image">
+    </picture>
+      <div class="hero_inner">
+        <h1 class="hero_title">Delicious Food</h1>
+        <p class="hero_tagline">
+          Find your favourite restaurants here
+        </p>
+      </div>
+    </div>
+
+    <div id="loading" class="loading-spinner" style="display: none;"></div>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+      <div class="headline">
+        <h1 class= "headline_title">Explore The Restaurant</h1>
+      </div>
+      <section id="restaurant-list" class="restaurant-list">
+        <!-- Daftar restoran disi oleh Javascript -->
+      </section>
+      <section id="main-content"></section>
+      <section id="main-content"></section>
+    </main>
+
+    <!-- Footer -->
+     <footer>
+      <p>Restaurant Apps Elsa Aprilia Suciaty &copy; 2024</p>
+     </footer>
+  </body>
+</html>
