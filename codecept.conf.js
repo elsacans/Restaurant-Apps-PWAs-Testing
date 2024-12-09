@@ -10,7 +10,7 @@ setCommonPlugins();
 /** @type {CodeceptJS.MainConfig} */
 // eslint-disable-next-line no-undef
 exports.config = {
-  tests: '.e2e/*_test.js',
+  tests: 'e2e/**/*.test.js',
   output: './output',
   helpers: {
     Playwright: {
