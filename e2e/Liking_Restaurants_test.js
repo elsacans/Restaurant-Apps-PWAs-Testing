@@ -1,3 +1,5 @@
+// c:\Users\MDP\Desktop\Restaurant-Apps-PWAs-Testing-main\e2e\Liking_Restaurants_test.js
+
 // eslint-disable-next-line no-undef, no-unused-vars
 const { I } = inject();
 
@@ -6,20 +8,11 @@ Feature('Restaurant Favorites');
 
 // eslint-disable-next-line no-undef
 Before(({ I }) => {
-  I.amOnPage('/#/favorite'); // Navigate to the favorites page
-});
-
-// eslint-disable-next-line no-undef
-Scenario('Display empty favorites when no restaurant is liked', async ({ I }) => {
-  // Ensure the favorites list is empty
-  I.see('You don\'t have any favorite restaurants yet.', '.restaurant-item__not__found');
+  I.amOnPage('/'); // Navigate to the home page
 });
 
 // eslint-disable-next-line no-undef
 Scenario('Liking a restaurant', async ({ I }) => {
-  // Navigate to the home page
-  I.amOnPage('/');
-
   // Ensure there is at least one restaurant to like
   I.seeElement('.resto-item_name a');
 
@@ -43,7 +36,18 @@ Scenario('Liking a restaurant', async ({ I }) => {
 Scenario('Unliking a restaurant', async ({ I }) => {
   // Navigate to the favorites page
   I.amOnPage('/#/favorite');
-  
-  // Ensure the favorites list is empty again
+
+  // Ensure the favorites list is not empty
+  I.seeElement('.resto-item');
+
+  // Click on the first restaurant in the favorites list
+  I.click('.resto-item_name a');
+
+  // Click the unlike button to remove the restaurant from favorites
+  I.seeElement('[aria-label="unlike this restaurant"]');
+  I.click('[aria-label="unlike this restaurant"]');
+
+  // Verify that the restaurant is no longer in the favorites list
+  I.amOnPage('/#/favorite');
   I.see('You don\'t have any favorite restaurants yet.', '.restaurant-item__not__found');
 });
