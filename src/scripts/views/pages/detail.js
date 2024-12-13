@@ -124,13 +124,9 @@ const Detail = {
         const responseJson = await response.json();
 
         if (responseJson.error === false) {
-          // Show success alert
-          alert('Thank you! Your review has been successfully added.');
-          
-          // Update the reviews section with the new review
+          alert('Thank you! Your review has been added.');
           this._updateReviews(responseJson.customerReviews);
           
-          // Clear the form
           nameInput.value = '';
           reviewInput.value = '';
         } else {
